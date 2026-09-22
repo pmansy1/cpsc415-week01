@@ -8,29 +8,20 @@ No build, no install, no server. Open `index.html` directly in any browser:
 
 ```
 open index.html        # macOS
-xdg-open index.html    # Linux
 start index.html       # Windows
 ```
 
-Or double-click the file in Finder/Explorer. The poem is embedded in the HTML, so the app works from `file://` with no network access.
+## Tools Used
+- **Harness** - Claude Code CLI
+- **Model** -  minimax/minimax-m3
 
-## Controls
+## Chosen Change
+- My chosen change was the restart button; I want this because it allows the user to immediately go back to the beginning of the card deck from their current position.
 
-- **Next** — advance to the next line. After the last line, wraps to the first.
-- **Restart** — jump back to line 1 from anywhere.
-- **Tab** — move focus to a button.
-- **Enter / Space** — activate the focused button.
-- **→ (Arrow Right)** — anywhere on the page, advances like Next.
+## Usage Evidence
+- I used  $0.28 to complete this lab, according to my OpenRouter activity page
 
-## Files
+## Help Needed
+- Originally, I was getting an 401 / authentication failure and decided to manually input my open router api key into my zshrc file, which solved the issue
 
-- `index.html` — the whole app (HTML + CSS + JS in one file).
-- `lyrics.txt` — the source poem. Not loaded at runtime; the same lines are embedded inside `index.html`.
 
-## Customize
-
-To train a different text, edit the `rawText` template literal inside the `<script>` block in `index.html`. Use one line of text per line in the template, then update the line count expectation if you want to be precise. Blank lines are filtered out automatically.
-
-## Tech
-
-Plain HTML, CSS, and vanilla JavaScript. No frameworks, packages, build step, or API calls.
