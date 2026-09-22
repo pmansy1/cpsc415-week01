@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lyrics Trainer</title>
+  <style>
+    :root {
+      --bg: #fafaf7;
+      --fg: #1a1a1a;
+      --muted: #666;
+      --card: #ffffff;
+      --border: #e3e3e0;
+      --accent: #2563eb;
+      --accent-press: #1d4ed8;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+      min-height: 100vh;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    main {
+      width: 100%;
+      max-width: 640px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    h1 {
+      margin: 0 0 1.5rem 0;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    #line {
+      margin: 0 0 1.25rem 0;
+      font-size: 1.6rem;
+      line-height: 1.5;
+      text-align: center;
+      min-height: 4.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #counter {
+      margin: 0 0 2rem 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.875rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+    }
+
+    button {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 2rem;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    button:hover { background: var(--accent-press); }
+    button:active { background: var(--accent-press); transform: translateY(1px); }
+
+    button:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Lyrics Trainer</h1>
+    <p id="line" aria-live="polite" aria-atomic="true"></p>
+    <p id="counter" aria-live="polite"></p>
+    <div class="controls">
+      <button id="next" type="button">Next</button>
+    </div>
+  </main>
+
+  <script>
+    // Embedded poem. Opens directly from disk with no fetch.
+    const rawText = `Shall I compare thee to a summer's day?
+Thou art more lovely and more temperate:
+Rough winds do shake the darling buds of May,
+And summer's lease hath all too short a date;
+Sometime too hot the eye of heaven shines,
+And often is his gold complexion dimm'd;
+And every fair from fair sometime declines,
+By chance or nature's changing course untrimm'd;
+But thy eternal summer shall not fade,
+Nor lose possession of that fair thou ow'st;
+Nor shall death brag thou wander'st in his shade,
+When in eternal lines to time thou grow'st:
+So long as men can breathe or eyes can see,
+So long lives this, and this gives life to thee.`;
+
+    // Keep only nonblank lines, preserving order.
+    const lines = rawText
+      .split('\n')
+      .map(l => l.trim())
+      .filter(l => l.length > 0);
+
+    const total = lines.length;
+    let index = 0;
+
+    const lineEl = document.getElementById('line');
+    const counterEl = document.getElementById('counter');
+    const nextBtn = document.getElementById('next');
+
+    function render() {
+      lineEl.textContent = lines[index];
+      counterEl.textContent = `Line ${index + 1} of ${total}`;
+    }
+
+    function advance() {
+      index = (index + 1) % total;
+      render();
+    }
+
+    nextBtn.addEventListener('click', advance);
+
+    // Native <button> already activates on Enter/Space when focused.
+    // ArrowRight works anywhere on the page as a keyboard shortcut.
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        advance();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>
