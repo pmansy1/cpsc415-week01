@@ -24,4 +24,9 @@ start index.html       # Windows
 ## Help Needed
 - Originally, I was getting an 401 / authentication failure and decided to manually input my open router api key into my zshrc file, which solved the issue
 
+## Code Explaination
+
+- A `keydown` listener at the bottom of the script maps `ArrowRight` to `advance()`, so Next works from anywhere on the page. Native `<button>` elements only fire Enter/Space while focused — without this listener, the user would have to Tab to the button before pressing →.
+
+
 
